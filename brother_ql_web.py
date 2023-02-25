@@ -288,10 +288,10 @@ def create_label_grocy(text, **kwargs):
     datamatrix = Image.frombytes("RGB", (encoded.width, encoded.height), encoded.pixels)
     datamatrix.save("/tmp/dmtx.png")
 
-    text_font = ImageFont.truetype(kwargs["font_path"], 100)
-    due_date_font = ImageFont.truetype(kwargs["font_path"], 60)
+    text_font = ImageFont.truetype(kwargs["font_path"], 35)
+    due_date_font = ImageFont.truetype(kwargs["font_path"], 25)
     width = kwargs["width"]
-    height = 200
+    height = 125
     if kwargs["orientation"] == "rotated":
         tw = width
         width = height
@@ -318,8 +318,8 @@ def create_label_grocy(text, **kwargs):
     )
 
     if kwargs["orientation"] == "standard":
-        vertical_offset += -10
-        horizontal_offset = encoded.width + 40
+        vertical_offset += 5
+        horizontal_offset = encoded.width + 20
     elif kwargs["orientation"] == "rotated":
         vertical_offset += encoded.width + 40
         horizontal_offset += -10
@@ -330,8 +330,8 @@ def create_label_grocy(text, **kwargs):
 
     if due_date is not None:
         if kwargs["orientation"] == "standard":
-            vertical_offset += 110
-            horizontal_offset = kwargs["margin_left"]
+            vertical_offset += 70
+            horizontal_offset = encoded.width + 20
         elif kwargs["orientation"] == "rotated":
             vertical_offset = kwargs["margin_left"]
             horizontal_offset += 110
