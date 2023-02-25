@@ -87,7 +87,7 @@ def get_label_context(request):
         "margin_right": float(d.get("margin_right", 35)) / 100.0,
         "grocycode": d.get("grocycode", None),
         "product": d.get("product", None),
-        "duedate": d.get("duedate", None),
+        "due_date": d.get("due_date", None),
         "battery": d.get("battery", None),
         "chore": d.get("chore", None),
     }
@@ -177,7 +177,7 @@ def create_label_grocy_1d(text, **kwargs):
         product = kwargs["product"]
         chore = kwargs["chore"]
         battery = kwargs["battery"]
-        duedate = kwargs["duedate"]
+        due_date = kwargs["due_date"]
         grocycode = kwargs["grocycode"]
 
         text = None
@@ -189,7 +189,7 @@ def create_label_grocy_1d(text, **kwargs):
             text = battery
 
         text_font_size = 80
-        duedate_font_size = 40
+        due_date_font_size = 40
         barcode_height = 120
 
         from barcode.codex import Code128
@@ -201,7 +201,7 @@ def create_label_grocy_1d(text, **kwargs):
         )
 
         text_font = ImageFont.truetype(kwargs["font_path"], text_font_size)
-        duedate_font = ImageFont.truetype(kwargs["font_path"], duedate_font_size)
+        due_date_font = ImageFont.truetype(kwargs["font_path"], due_date_font_size)
         width = kwargs["width"]
 
         if kwargs["orientation"] == "standard":
@@ -220,8 +220,8 @@ def create_label_grocy_1d(text, **kwargs):
         height = (
             margin_top + margin_bottom + barcode_height + int(text_font_size * 1.3) - 30
         )
-        if duedate:
-            height += int(duedate_font_size * 1.3)
+        if due_date:
+            height += int(due_date_font_size * 1.3)
 
         im = Image.new("RGB", (width, height), "white")
         draw = ImageDraw.Draw(im)
@@ -248,11 +248,11 @@ def create_label_grocy_1d(text, **kwargs):
             ),
         )
 
-        if duedate is not None:
+        if due_date is not None:
             vertical_offset += barcode_height
             horizontal_offset = margin_left
             textoffset = horizontal_offset, vertical_offset
-            draw.text(textoffset, duedate, kwargs["fill_color"], font=duedate_font)
+            draw.text(textoffset, due_date, kwargs["fill_color"], font=due_date_font)
 
         if kwargs["orientation"] == "rotated":
             im = im.transpose(Image.ROTATE_90)
@@ -268,7 +268,7 @@ def create_label_grocy(text, **kwargs):
     product = kwargs["product"]
     chore = kwargs["chore"]
     battery = kwargs["battery"]
-    duedate = kwargs["duedate"]
+    due_date = kwargs["due_date"]
     grocycode = kwargs["grocycode"]
 
     text = None
@@ -289,7 +289,7 @@ def create_label_grocy(text, **kwargs):
     datamatrix.save("/tmp/dmtx.png")
 
     text_font = ImageFont.truetype(kwargs["font_path"], 100)
-    duedate_font = ImageFont.truetype(kwargs["font_path"], 60)
+    due_date_font = ImageFont.truetype(kwargs["font_path"], 60)
     width = kwargs["width"]
     height = 200
     if kwargs["orientation"] == "rotated":
@@ -328,7 +328,7 @@ def create_label_grocy(text, **kwargs):
 
     draw.text(textoffset, text, kwargs["fill_color"], font=text_font)
 
-    if duedate is not None:
+    if due_date is not None:
         if kwargs["orientation"] == "standard":
             vertical_offset += 110
             horizontal_offset = kwargs["margin_left"]
@@ -337,7 +337,7 @@ def create_label_grocy(text, **kwargs):
             horizontal_offset += 110
         textoffset = horizontal_offset, vertical_offset
 
-        draw.text(textoffset, duedate, kwargs["fill_color"], font=duedate_font)
+        draw.text(textoffset, due_date, kwargs["fill_color"], font=due_date_font)
 
     return im
 
