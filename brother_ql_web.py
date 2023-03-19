@@ -483,7 +483,7 @@ def print_grocy():
     
 @post("/api/print/tht")
 @get("/api/print/tht")
-    def print_tht():
+def print_tht():
         """
         API endpoint for THT labels.
     
