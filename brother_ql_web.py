@@ -340,20 +340,20 @@ def create_label_grocy(text, **kwargs):
         draw.text(textoffset, due_date, kwargs["fill_color"], font=due_date_font)
 
     return im
-    
+
 def create_label_tht(text, **kwargs):
     product = kwargs["product"]
     due_date = kwargs["due_date"]
-    
-    text_font = ImageFont.truetype(kwargs["font_path"], 45)
-    due_date_font = ImageFont.truetype(kwargs["font_path"], 35)
+
+    text_font = ImageFont.truetype(kwargs["font_path"], 50)
+    due_date_font = ImageFont.truetype(kwargs["font_path"], 60)
     width = kwargs["width"]
     height = 125
     if kwargs["orientation"] == "rotated":
         tw = width
         width = height
         height = tw
-    
+
     im = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(im)
     if kwargs["orientation"] == "standard":
@@ -362,29 +362,29 @@ def create_label_tht(text, **kwargs):
     elif kwargs["orientation"] == "rotated":
         vertical_offset = kwargs["margin_top"]
         horizontal_offset = kwargs["margin_left"]
-    
+
     if kwargs["orientation"] == "standard":
-        vertical_offset += 5
+        vertical_offset += -5
         horizontal_offset += 5
     elif kwargs["orientation"] == "rotated":
         vertical_offset += 10
         horizontal_offset += -10
-    
+
     textoffset = horizontal_offset, vertical_offset
-    
+
     draw.text(textoffset, product, kwargs["fill_color"], font=text_font)
-    
+
     if due_date is not None:
         if kwargs["orientation"] == "standard":
-            vertical_offset += 70
+            vertical_offset += 65
             horizontal_offset += 5
         elif kwargs["orientation"] == "rotated":
             vertical_offset = kwargs["margin_left"]
             horizontal_offset += 110
         textoffset = horizontal_offset, vertical_offset
-    
+
         draw.text(textoffset, due_date, kwargs["fill_color"], font=due_date_font)
-    
+
     return im
 
 
